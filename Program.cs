@@ -32,13 +32,13 @@ public class Baggage {
 
 // --- Counter --- //
 interface ICounter {
-    Queue<Baggage> ProduceBaggage();
+    void ProduceBaggage(string airline);
 }
 
-public abstract class Counter {
+public abstract class Counter : ICounter {
     private int number;
     private int countNumber;
-    private string airline;
+    protected string airline;
     private Queue<Baggage> baggageBuffer = new Queue<Baggage>();
 
     public Counter(string airline) {
@@ -47,8 +47,8 @@ public abstract class Counter {
         this.airline = airline;
     }
 
-    void ProduceBaggage(string airline) {
-       while(true) {
+    public virtual void ProduceBaggage(string airline) {
+        while(true) {
             Monitor.Enter(baggageBuffer);
             try {
                 while(baggageBuffer.Count == 3) {
@@ -62,7 +62,7 @@ public abstract class Counter {
 
                     Debug.WriteLine($"{airline} has added baggage to their {baggageBuffer}");
                 }
-                
+
                 Monitor.PulseAll(baggageBuffer);
             }
             finally {
@@ -74,6 +74,22 @@ public abstract class Counter {
 
 public class DefaultAirline : Counter {
     DefaultAirline() : base("default") { }
+    override public void ProduceBaggage(string airline) { }
+}
+
+public class KLM : Counter {
+    KLM() : base("KLM") { }
+    override public void ProduceBaggage(string airline) { }
+}
+
+public class SAS : Counter {
+    SAS() : base("SAS") { }
+    override public void ProduceBaggage(string airline) { }
+}
+
+public class TAP: Counter {
+    TAP() : base("TAP") { }
+    override public void ProduceBaggage(string airline) { }
 }
 
 
