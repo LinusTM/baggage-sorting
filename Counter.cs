@@ -1,5 +1,3 @@
-using System;
-using System.Threading;
 using System.Diagnostics;
 
 namespace baggage_sorting;
@@ -7,10 +5,10 @@ internal abstract class Counter {
     private int number;
     private int countNumber;
     protected string airline;
-    private Queue<Baggage> baggageBuffer = new Queue<Baggage>();
+    internal Queue<Baggage> baggageBuffer = new Queue<Baggage>();
 
     internal Counter(string airline) {
-        countNumber++;
+    countNumber++;
         this.number = countNumber;
         this.airline = airline;
     }
@@ -25,7 +23,7 @@ internal abstract class Counter {
                 }
 
                 if(Random.Shared.Next(0,100) == 14) {
-                    Baggage baggage = new Baggage(airline);
+                    Baggage baggage = new Baggage();
                     baggageBuffer.Enqueue(baggage);
 
                     Debug.WriteLine($"{airline} has added baggage to their {baggageBuffer}");

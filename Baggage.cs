@@ -1,17 +1,28 @@
-using System;
-using System.Threading;
-using System.Diagnostics;
-
 namespace baggage_sorting;
-public class Baggage {
+internal class Baggage {
     static int baggageCount;
 
     private int id;
     private string destination;
+    
+    internal string Destination { get => destination; }
 
-    public Baggage(string destination) {
+    internal Baggage() {
         baggageCount++;
         this.id = baggageCount;
-        this.destination = destination;
+        this.destination = destinationRnd();
+    }
+
+    private string destinationRnd() {
+        switch(Random.Shared.Next(0,4)) {
+            case 0:
+                return "Amsterdam";
+            case 1:
+                return "Washington";
+            case 2:
+                return "Columbus";
+            default:
+                return "Portugal";
+        }
     }
 }
